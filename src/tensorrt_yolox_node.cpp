@@ -117,7 +117,7 @@ void TrtYoloXNode::onImage(const sensor_msgs::msg::Image::ConstSharedPtr msg)
     const auto bottom =
       std::min(static_cast<int>(object.feature.roi.y_offset + object.feature.roi.height), height);
     cv::rectangle(
-      in_image_ptr->image, cv::Point(left, top), cv::Point(right, bottom), cv::Scalar(0, 0, 255), 3,
+      in_image_ptr->image, cv::Point(left, top), cv::Point(right, bottom), cv::Scalar(color_map_[label_map_[yolox_object.type]]), 3,
       8, 0);
   }
   image_pub_.publish(in_image_ptr->toImageMsg());

@@ -60,10 +60,21 @@ private:
   rclcpp::TimerBase::SharedPtr timer_;
 
   LabelMap label_map_;
-  const std::vector<cv::Scalar> color_map_ =
-    {cv::Scalar(0, 0, 255), cv::Scalar(255, 0, 0), cv::Scalar(0, 255, 0),
+  const std::vector<cv::Scalar> color_list_ =
+    {cv::Scalar(255, 255, 255),cv::Scalar(0, 0, 255), cv::Scalar(255, 0, 0), cv::Scalar(0, 255, 0),
     cv::Scalar(0, 255, 255),cv::Scalar(255, 0, 255),cv::Scalar(255, 255, 0)};
 
+
+  std::unordered_map<std::string,cv::Vec<double,3 > > color_map_ = {
+    {"UNKNOWN",{255,255,255}},
+    {"CAR",{0,0,255}},
+    {"TRUCK",{0,255,255}},
+    {"BUS",{255,0,255}},
+    {"BICYCLE",{255,255,0}},
+    {"MOTORBIKE",{255,0,0}},
+    {"PEDESTRIAN",{0,255,0}},
+    {"ANIMAL",{128,128,0}},
+  };
   std::unique_ptr<tensorrt_yolox::TrtYoloX> trt_yolox_;
 };
 
