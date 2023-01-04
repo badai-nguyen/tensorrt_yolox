@@ -32,6 +32,10 @@
 #include <memory>
 #include <string>
 #include <vector>
+#include <unordered_map>
+
+
+
 
 namespace tensorrt_yolox
 {
@@ -56,6 +60,10 @@ private:
   rclcpp::TimerBase::SharedPtr timer_;
 
   LabelMap label_map_;
+  const std::vector<cv::Scalar> color_map_ =
+    {cv::Scalar(0, 0, 255), cv::Scalar(255, 0, 0), cv::Scalar(0, 255, 0),
+    cv::Scalar(0, 255, 255),cv::Scalar(255, 0, 255),cv::Scalar(255, 255, 0)};
+
   std::unique_ptr<tensorrt_yolox::TrtYoloX> trt_yolox_;
 };
 
