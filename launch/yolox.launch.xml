@@ -1,0 +1,152 @@
+<launch>
+    <group>
+        <push-ros-namespace namespace="/sensing/camera"/>
+        <group>
+            <push-ros-namespace namespace="camera0"/>
+            <arg name="yolo_type" default="yolox" />
+            <arg name="model_path" default="$(find-pkg-share tensorrt_yolox)/data/yolox-tiny.onnx" />
+            <arg name="label_path" default="$(find-pkg-share tensorrt_yolox)/data/label.txt"/>
+            <arg name="input_topic" default="/sensing/camera/camera0/image_rect_color" />
+            <arg name="output_object" default="detection/rois" />
+            <arg name="output_image" default="detection/rois/debug/image" />
+
+            <arg name="input_topic_name" default="image_rect_color/compressed"/>
+            <arg name="output_topic_name" default="image_rect_color"/>
+            <node pkg="image_transport_decompressor" exec="image_transport_decompressor_node" name="$(anon image_transport_decompressor_node)">
+                <remap from="~/input/compressed_image" to="$(var input_topic_name)"/>
+                <remap from="~/output/raw_image" to="$(var output_topic_name)"/>
+            </node>
+            <node pkg="tensorrt_yolox" exec="tensorrt_yolox_node_exe" name="$(anon tensorrt_yolox)" output="screen">
+                <param name="model_path" value="$(var model_path)" />
+                <param name="label_path" value="$(var label_path)" />
+                <remap from="~/in/image" to="image_rect_color" />
+                <remap from="~/out/image" to="$(var output_image)" />
+                <remap from="~/out/objects" to="$(var output_object)" />
+            </node>
+        </group>
+<!-- 
+
+        <group>
+            <push-ros-namespace namespace="camera1"/>
+            <arg name="yolo_type" default="yolox" />
+            <arg name="model_path" default="$(find-pkg-share tensorrt_yolox)/data/yolox-tiny.onnx" />
+            <arg name="label_path" default="$(find-pkg-share tensorrt_yolox)/data/label.txt"/>
+            <arg name="input_topic" default="/sensing/camera/camera0/image_rect_color" />
+            <arg name="output_object" default="detection/rois" />
+            <arg name="output_image" default="detection/rois/debug/image" />
+
+            <arg name="input_topic_name" default="image_rect_color/compressed"/>
+            <arg name="output_topic_name" default="image_rect_color"/>
+            <node pkg="image_transport_decompressor" exec="image_transport_decompressor_node" name="$(anon image_transport_decompressor_node)">
+                <remap from="~/input/compressed_image" to="$(var input_topic_name)"/>
+                <remap from="~/output/raw_image" to="$(var output_topic_name)"/>
+            </node>
+            <node pkg="tensorrt_yolox" exec="tensorrt_yolox_node_exe" name="$(anon tensorrt_yolox)" output="screen">
+                <param name="model_path" value="$(var model_path)" />
+                <param name="label_path" value="$(var label_path)" />
+                <remap from="~/in/image" to="image_rect_color" />
+                <remap from="~/out/image" to="$(var output_image)" />
+                <remap from="~/out/objects" to="$(var output_object)" />
+            </node>
+        </group>
+
+        <group>
+            <push-ros-namespace namespace="camera2"/>
+            <arg name="yolo_type" default="yolox" />
+            <arg name="model_path" default="$(find-pkg-share tensorrt_yolox)/data/yolox-tiny.onnx" />
+            <arg name="label_path" default="$(find-pkg-share tensorrt_yolox)/data/label.txt"/>
+            <arg name="input_topic" default="/sensing/camera/camera0/image_rect_color" />
+            <arg name="output_object" default="detection/rois" />
+            <arg name="output_image" default="detection/rois/debug/image" />
+
+            <arg name="input_topic_name" default="image_rect_color/compressed"/>
+            <arg name="output_topic_name" default="image_rect_color"/>
+            <node pkg="image_transport_decompressor" exec="image_transport_decompressor_node" name="$(anon image_transport_decompressor_node)">
+                <remap from="~/input/compressed_image" to="$(var input_topic_name)"/>
+                <remap from="~/output/raw_image" to="$(var output_topic_name)"/>
+            </node>
+            <node pkg="tensorrt_yolox" exec="tensorrt_yolox_node_exe" name="$(anon tensorrt_yolox)" output="screen">
+                <param name="model_path" value="$(var model_path)" />
+                <param name="label_path" value="$(var label_path)" />
+                <remap from="~/in/image" to="image_rect_color" />
+                <remap from="~/out/image" to="$(var output_image)" />
+                <remap from="~/out/objects" to="$(var output_object)" />
+            </node>
+        </group>
+        <group>
+            <push-ros-namespace namespace="camera3"/>
+            <arg name="yolo_type" default="yolox" />
+            <arg name="model_path" default="$(find-pkg-share tensorrt_yolox)/data/yolox-tiny.onnx" />
+            <arg name="label_path" default="$(find-pkg-share tensorrt_yolox)/data/label.txt"/>
+            <arg name="input_topic" default="/sensing/camera/camera0/image_rect_color" />
+            <arg name="output_object" default="detection/rois" />
+            <arg name="output_image" default="detection/rois/debug/image" />
+
+            <arg name="input_topic_name" default="image_rect_color/compressed"/>
+            <arg name="output_topic_name" default="image_rect_color"/>
+            <node pkg="image_transport_decompressor" exec="image_transport_decompressor_node" name="$(anon image_transport_decompressor_node)">
+                <remap from="~/input/compressed_image" to="$(var input_topic_name)"/>
+                <remap from="~/output/raw_image" to="$(var output_topic_name)"/>
+            </node>
+            <node pkg="tensorrt_yolox" exec="tensorrt_yolox_node_exe" name="$(anon tensorrt_yolox)" output="screen">
+                <param name="model_path" value="$(var model_path)" />
+                <param name="label_path" value="$(var label_path)" />
+                <remap from="~/in/image" to="image_rect_color" />
+                <remap from="~/out/image" to="$(var output_image)" />
+                <remap from="~/out/objects" to="$(var output_object)" />
+            </node>
+        </group>
+        <group>
+            <push-ros-namespace namespace="camera4"/>
+            <arg name="yolo_type" default="yolox" />
+            <arg name="model_path" default="$(find-pkg-share tensorrt_yolox)/data/yolox-tiny.onnx" />
+            <arg name="label_path" default="$(find-pkg-share tensorrt_yolox)/data/label.txt"/>
+            <arg name="input_topic" default="/sensing/camera/camera0/image_rect_color" />
+            <arg name="output_object" default="detection/rois" />
+            <arg name="output_image" default="detection/rois/debug/image" />
+
+            <arg name="input_topic_name" default="image_rect_color/compressed"/>
+            <arg name="output_topic_name" default="image_rect_color"/>
+            <node pkg="image_transport_decompressor" exec="image_transport_decompressor_node" name="$(anon image_transport_decompressor_node)">
+                <remap from="~/input/compressed_image" to="$(var input_topic_name)"/>
+                <remap from="~/output/raw_image" to="$(var output_topic_name)"/>
+            </node>
+            <node pkg="tensorrt_yolox" exec="tensorrt_yolox_node_exe" name="$(anon tensorrt_yolox)" output="screen">
+                <param name="model_path" value="$(var model_path)" />
+                <param name="label_path" value="$(var label_path)" />
+                <remap from="~/in/image" to="image_rect_color" />
+                <remap from="~/out/image" to="$(var output_image)" />
+                <remap from="~/out/objects" to="$(var output_object)" />
+            </node>
+        </group>
+        <group>
+            <push-ros-namespace namespace="camera5"/>
+            <arg name="yolo_type" default="yolox" />
+            <arg name="model_path" default="$(find-pkg-share tensorrt_yolox)/data/yolox-tiny.onnx" />
+            <arg name="label_path" default="$(find-pkg-share tensorrt_yolox)/data/label.txt"/>
+            <arg name="input_topic" default="/sensing/camera/camera0/image_rect_color" />
+            <arg name="output_object" default="detection/rois" />
+            <arg name="output_image" default="detection/rois/debug/image" />
+
+            <arg name="input_topic_name" default="image_rect_color/compressed"/>
+            <arg name="output_topic_name" default="image_rect_color"/>
+            <node pkg="image_transport_decompressor" exec="image_transport_decompressor_node" name="$(anon image_transport_decompressor_node)">
+                <remap from="~/input/compressed_image" to="$(var input_topic_name)"/>
+                <remap from="~/output/raw_image" to="$(var output_topic_name)"/>
+            </node>
+            <node pkg="tensorrt_yolox" exec="tensorrt_yolox_node_exe" name="$(anon tensorrt_yolox)" output="screen">
+                <param name="model_path" value="$(var model_path)" />
+                <param name="label_path" value="$(var label_path)" />
+                <remap from="~/in/image" to="image_rect_color" />
+                <remap from="~/out/image" to="$(var output_image)" />
+                <remap from="~/out/objects" to="$(var output_object)" />
+            </node>
+        </group> -->
+        
+
+    
+    </group>
+
+
+    
+</launch>
